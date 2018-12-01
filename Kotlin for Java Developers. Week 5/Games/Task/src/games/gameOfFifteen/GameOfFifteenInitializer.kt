@@ -12,23 +12,23 @@ interface GameOfFifteenInitializer {
     val initialPermutation: List<Int>
 }
 
+fun Random.findAPermutation(): List<Int> {
+    val set = mutableSetOf<Int>()
+    while (set.size < 15) {
+        val element = this.nextInt(16)
+        if (element != 0) set.add(element)
+    }
+    return set.asSequence().toList()
+}
+
 class RandomGameInitializer : GameOfFifteenInitializer {
     override val initialPermutation by lazy {
-        var result = findAPermutation()
+        val random = Random()
+        var result = random.findAPermutation()
         while (!isEven(result)) {
-            result = findAPermutation()
+            result = random.findAPermutation()
         }
         result
-    }
-
-    private fun findAPermutation(): List<Int> {
-        val random = Random()
-        val set = mutableSetOf<Int>()
-        while (set.size < 15) {
-            val element = random.nextInt(16)
-            if (element != 0) set.add(element)
-        }
-        return set.asSequence().toList()
     }
 }
 

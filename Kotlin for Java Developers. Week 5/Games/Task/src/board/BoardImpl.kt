@@ -34,7 +34,7 @@ class GameBoardImpl<T>(width: Int) : SquareBoardImpl(width), GameBoard<T> {
         filter(predicate).size == storage.size
 }
 
-data class CellImpl(override val i: Int, override val j: Int) : Cell
+class CellImpl(override val i: Int, override val j: Int) : Cell
 
 open class SquareBoardImpl(final override val width: Int) : SquareBoard {
 
