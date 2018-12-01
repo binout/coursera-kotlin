@@ -1,6 +1,7 @@
 package games.gameOfFifteen
 
 import java.util.*
+import kotlin.streams.toList
 
 interface GameOfFifteenInitializer {
     /*
@@ -13,7 +14,13 @@ interface GameOfFifteenInitializer {
 
 class RandomGameInitializer : GameOfFifteenInitializer {
     override val initialPermutation by lazy {
-        TODO()
+        val random = Random()
+        val set = mutableSetOf<Int>()
+        while (set.size < 15) {
+            val element = random.nextInt(16)
+            if (element != 0) set.add(element)
+        }
+        set.asSequence().toList()
     }
 }
 
