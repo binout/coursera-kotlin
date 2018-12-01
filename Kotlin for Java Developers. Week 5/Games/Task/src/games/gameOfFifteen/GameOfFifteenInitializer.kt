@@ -14,13 +14,21 @@ interface GameOfFifteenInitializer {
 
 class RandomGameInitializer : GameOfFifteenInitializer {
     override val initialPermutation by lazy {
+        var result = findAPermutation()
+        while (!isEven(result)) {
+            result = findAPermutation()
+        }
+        result
+    }
+
+    private fun findAPermutation(): List<Int> {
         val random = Random()
         val set = mutableSetOf<Int>()
         while (set.size < 15) {
             val element = random.nextInt(16)
             if (element != 0) set.add(element)
         }
-        set.asSequence().toList()
+        return set.asSequence().toList()
     }
 }
 

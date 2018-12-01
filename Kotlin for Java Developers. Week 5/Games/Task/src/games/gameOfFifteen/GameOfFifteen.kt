@@ -1,7 +1,7 @@
 package games.gameOfFifteen
 
+import board.Cell
 import board.Direction
-import board.GameBoard
 import board.createGameBoard
 import games.game.Game
 
@@ -24,16 +24,38 @@ class GameOfFifteen(private val initializer: GameOfFifteenInitializer) : Game {
     }
 
     override fun canMove(): Boolean {
-        return false
+        return true
     }
 
     override fun hasWon(): Boolean {
-        return false
+        val allCells = board.getAllCells().filter { board[it] != null }
+        return allCells.zip(allCells.drop(1)).all { (a,b) -> board[a]!! < board[b]!!  }
     }
 
     override fun processMove(direction: Direction) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val nullCell = board.getAllCells().first { board[it] == null }
+        when (direction) {
+            Direction.DOWN -> {
+                board.getCellOrNull(nullCell.i-1, nullCell.j)?.let { swap(it, nullCell) }
+            }
+            Direction.UP -> {
+                board.getCellOrNull(nullCell.i+1, nullCell.j)?.let { swap(it, nullCell) }
+            }
+            Direction.LEFT -> {
+                board.getCellOrNull(nullCell.i, nullCell.j+1)?.let { swap(it, nullCell) }
+            }
+            Direction.RIGHT -> {
+                board.getCellOrNull(nullCell.i, nullCell.j-1)?.let { swap(it, nullCell) }
+            }
+        }
     }
+
+    private fun swap(cell1: Cell, cell2: Cell) {
+        val initialValue = board[cell1]
+        board[cell1] = board[cell2]
+        board[cell2] = initialValue
+    }
+
 
     override fun get(i: Int, j: Int): Int? = board.run { get(getCell(i, j)) }
 }

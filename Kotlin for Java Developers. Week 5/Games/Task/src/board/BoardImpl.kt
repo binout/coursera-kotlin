@@ -64,6 +64,4 @@ open class SquareBoardImpl(final override val width: Int) : SquareBoard {
             LEFT -> getCellOrNull(i, j-1)
             RIGHT -> getCellOrNull(i, j+1)
         }
-
-
 }
