@@ -42,9 +42,9 @@ class Game2048(private val initializer: Game2048Initializer<Int>) : Game {
  * Add a new value produced by 'initializer' to a specified cell in a board.
  */
 fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>) {
-    initializer.nextValue(this)?.let {
-        this[it.first] = it.second
-    }
+  initializer.nextValue(this)?.let {
+    this[it.first] = it.second
+  }
 }
 
 /*
@@ -54,15 +54,15 @@ fun GameBoard<Int?>.addNewValue(initializer: Game2048Initializer<Int>) {
  * Return 'true' if the values were moved and 'false' otherwise.
  */
 fun GameBoard<Int?>.moveValuesInRowOrColumn(rowOrColumn: List<Cell>): Boolean {
-    val initialValues = rowOrColumn.map { this[it] }
-    val newValues = initialValues.moveAndMergeEqual { it * 2 }
-    rowOrColumn.forEachIndexed { index, cell ->
-        when {
-            index < newValues.size -> this[cell] = newValues[index]
-            else -> this[cell] = null
-        }
+  val initialValues = rowOrColumn.map { this[it] }
+  val newValues = initialValues.moveAndMergeEqual { it * 2 }
+  rowOrColumn.forEachIndexed { index, cell ->
+    when {
+      index < newValues.size -> this[cell] = newValues[index]
+      else -> this[cell] = null
     }
-    return initialValues.size != newValues.size
+  }
+  return initialValues.size != newValues.size
 }
 
 /*
@@ -71,16 +71,16 @@ fun GameBoard<Int?>.moveValuesInRowOrColumn(rowOrColumn: List<Cell>): Boolean {
  * Return 'true' if the values were moved and 'false' otherwise.
  */
 fun GameBoard<Int?>.moveValues(direction: Direction): Boolean {
-    var count = 0
-    when(direction) {
-        Direction.DOWN ->
-            (1..width).map { getColumn(width downTo 1, it) }.forEach{ if (moveValuesInRowOrColumn(it)) count++ }
-        Direction.UP ->
-            (1..width).map { getColumn(1..width, it) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
-        Direction.RIGHT ->
-            (1..width).map { getRow(it, width downTo 1) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
-        Direction.LEFT ->
-            (1..width).map { getRow(it, 1..width) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
-    }
-    return count != 0
+  var count = 0
+  when(direction) {
+    Direction.DOWN ->
+      (1..width).map { getColumn(width downTo 1, it) }.forEach{ if (moveValuesInRowOrColumn(it)) count++ }
+    Direction.UP ->
+      (1..width).map { getColumn(1..width, it) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
+    Direction.RIGHT ->
+      (1..width).map { getRow(it, width downTo 1) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
+    Direction.LEFT ->
+      (1..width).map { getRow(it, 1..width) }.forEach{ if (moveValuesInRowOrColumn(it)) count++}
+  }
+  return count != 0
 }

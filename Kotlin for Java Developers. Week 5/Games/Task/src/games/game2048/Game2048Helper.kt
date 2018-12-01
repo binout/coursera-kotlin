@@ -13,17 +13,18 @@ package games.game2048
  *   a, a, null, a -> aa, a
  *   a, null, a, a -> aa, a
 */
-fun <T : Any> List<T?>.moveAndMergeEqual(double: (T) -> T): List<T> {
-    fun merge(list: List<T>): List<T> =
-        when {
-            list.size <=1 -> list
-            else -> {
-                val first = list[0]
-                val second = list[1]
-                val pair = if (first == second) double(first) to 2 else first to 1
-                listOf(listOf(pair.first), merge(list.drop(pair.second))).flatten()
-            }
-        }
-    return merge(filterNotNull())
+fun <T : Any> List<T?>.moveAndMergeEqual(double: (T) -> T): List<T>
+{
+  fun merge(list: List<T>): List<T> =
+    when {
+      list.size <=1 -> list
+      else -> {
+        val first = list[0]
+        val second = list[1]
+        val pair = if (first == second) double(first) to 2 else first to 1
+        listOf(listOf(pair.first), merge(list.drop(pair.second))).flatten()
+      }
+    }
+  return merge(filterNotNull())
 }
 
